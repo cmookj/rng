@@ -31,9 +31,10 @@ random_int_uniform::random_int_uniform (int32_t seed)
   ran_start (seed);
 }
 
-// int random_int_uniform::operator() () const {
-//     // after calling ran_start, get new randoms by, e.g., "x=_ran_arr_next()"
-// }
+int
+random_int_uniform::operator() () {
+  return ran_arr_next();
+}
 
 void
 random_int_uniform::ran_array (int32_t* aa, size_t n) {
@@ -124,15 +125,10 @@ random_double_uniform::random_double_uniform (int32_t seed)
   ranf_start (seed);
 }
 
-/* It is explained in Seminumerical Algorithms, 3rd edition, Section 3.6
- * (or in the errata to the 2nd edition --- see
- *  http://www-cs-faculty.stanford.edu/~knuth/taocp.html
- * in the changes to Volume 2 on pages 171 and following).
- */
-
-// double random_double_uniform::operator() () const {
-//     // after calling _ranf_start, get new randoms by, e.g., "x = _ranf_arr_next()"
-// }
+double
+random_double_uniform::operator() () {
+  return ranf_arr_next();
+}
 
 void
 random_double_uniform::ranf_array (double* aa, size_t n) {
@@ -290,7 +286,7 @@ random_int_discrete_distribution::generate_table (const std::vector<double>& pro
 
 int
 random_int_discrete_distribution::operator() () const {
-  double       random_double = random_uniform_double_generator.ranf_arr_next();
+  double       random_double = random_uniform_double_generator();
   const int    n             = max_rnd_number;
   const int    i             = std::floor (random_double * n) + 1;
   const double y             = random_double * n + 1 - i;
