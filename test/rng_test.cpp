@@ -37,3 +37,29 @@ TEST (TestRandomDouble, Uniform) {
 
   EXPECT_FLOAT_EQ (rng_dbl.ran_u (0), 0.36410514377569680455);
 }
+
+TEST (TestRandomInteger, DiscreteDistribution) {
+  std::vector<double>                             prob{0.25, 0.3, 0.1, 0.2, 0.15};
+  random_number::random_int_discrete_distribution rng{prob, 310952L};
+
+  EXPECT_EQ (rng.tbl()[0].acceptance, 0.75);
+  EXPECT_EQ (rng.tbl()[1].acceptance, 1.0);
+  EXPECT_EQ (rng.tbl()[2].acceptance, 0.5);
+  EXPECT_EQ (rng.tbl()[3].acceptance, 1.0);
+  EXPECT_EQ (rng.tbl()[4].acceptance, 0.75);
+
+  EXPECT_EQ (rng.tbl()[0].alias, 2);
+  EXPECT_EQ (rng.tbl()[2].alias, 1);
+  EXPECT_EQ (rng.tbl()[4].alias, 2);
+
+  const int        max_count = 3000000;
+  std::vector<int> histogram (prob.size(), 0);
+  for (int i = 0; i < max_count; ++i) {
+    int random_number = rng();
+    histogram[random_number - 1]++;
+  }
+
+  for (int i = 0; i < histogram.size(); ++i) {
+    EXPECT_NEAR (prob[i], double (histogram[i]) / double (max_count), 0.005);
+  }
+}
