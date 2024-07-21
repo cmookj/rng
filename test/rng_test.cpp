@@ -52,7 +52,7 @@ TEST (TestRandomInteger, DiscreteDistribution) {
   EXPECT_EQ (rng.tbl()[2].alias, 1);
   EXPECT_EQ (rng.tbl()[4].alias, 2);
 
-  const int        max_count = 3000000;
+  const int        max_count = 30000000;
   std::vector<int> histogram (prob.size(), 0);
   for (int i = 0; i < max_count; ++i) {
     int random_number = rng();

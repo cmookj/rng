@@ -52,7 +52,8 @@ public:
   random_int_uniform&
   operator= (random_int_uniform&&) = default;
 
-  // int operator() () const;
+  [[nodiscard]] int
+  operator() ();
 
   // Do this before using _ran_array
   // Selector for different streams
@@ -114,7 +115,8 @@ public:
   random_double_uniform&
   operator= (random_double_uniform&&) = default;
 
-  // double operator() () const;
+  [[nodiscard]] double
+  operator() ();
 
   // Do this before using _ranf_array
   // Selector for different streams
@@ -177,7 +179,7 @@ public:
   random_int_discrete_distribution&
   operator= (random_int_discrete_distribution&&) = delete;
 
-  int
+  [[nodiscard]] int
   operator() () const;
 
 private:
@@ -199,9 +201,9 @@ private:
 
   mutable random_double_uniform random_uniform_double_generator;
 
-  // -------------------------------------
-  //  Appendix: for debugging purpose only
-  // -------------------------------------
+  // -------------------------------------------------
+  //  Appendix: for testing and debugging purpose only
+  // -------------------------------------------------
 public:
   const std::vector<table_entry>&
   tbl () const;
